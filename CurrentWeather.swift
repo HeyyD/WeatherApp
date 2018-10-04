@@ -10,9 +10,16 @@ import UIKit
 
 class CurrentWeather: UIViewController {
     
+    let api_key = "a59dd893440fcb2c69b5fe347b9ef83c"
+    
+    @IBOutlet weak var city: UILabel!
+    @IBOutlet weak var temperature: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Current weather"
+        
+        fetchUrl(url: "https://api.openweathermap.org/data/2.5/weather?q=Tampere&units=metric&APPID=" + api_key)
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -21,6 +28,38 @@ class CurrentWeather: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    
+    func fetchUrl(url : String) {
+        let config = URLSessionConfiguration.default
+        let session = URLSession(configuration: config)
+        
+        let url : URL? = URL(string: url)
+        
+        let task = session.dataTask(with: url!, completionHandler: doneFetching);
+        
+        // Starts the task, spawns a new thread and calls the callback function
+        task.resume();
+    }
+    
+    func doneFetching(data: Data?, response: URLResponse?, error: Error?) {
+        let resstr = String(data: data!, encoding: String.Encoding.utf8)
+        
+        // Execute stuff in UI thread
+        DispatchQueue.main.async(execute: {() in
+            NSLog(resstr!)
+            
+            let decoder = JSONDecoder()
+            
+            do {
+                let weather = try decoder.decode(WeatherDTO.self, from: data!)
+                self.city.text = weather.name
+                self.temperature.text = String(weather.main.temp) + " C"
+            } catch {
+                print("ERROR PARSING JSON")
+            }
+        })
+    }
     
 }
 
