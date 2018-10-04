@@ -11,6 +11,7 @@ import UIKit
 class CurrentWeather: UIViewController {
     
     let api_key = "a59dd893440fcb2c69b5fe347b9ef83c"
+    let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     
     @IBOutlet weak var city: UILabel!
     @IBOutlet weak var temperature: UILabel!
@@ -18,6 +19,10 @@ class CurrentWeather: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Current weather"
+        
+        let bounds = UIScreen.main.bounds
+        indicator.center = CGPoint(x: bounds.width/2, y: bounds.height/2)
+        self.view.addSubview(indicator)
         
         fetchUrl(url: "https://api.openweathermap.org/data/2.5/weather?q=Tampere&units=metric&APPID=" + api_key)
         // Do any additional setup after loading the view, typically from a nib.
@@ -31,6 +36,7 @@ class CurrentWeather: UIViewController {
     
     
     func fetchUrl(url : String) {
+        indicator.startAnimating()
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
         
@@ -48,9 +54,9 @@ class CurrentWeather: UIViewController {
         // Execute stuff in UI thread
         DispatchQueue.main.async(execute: {() in
             NSLog(resstr!)
+            self.indicator.stopAnimating()
             
             let decoder = JSONDecoder()
-            
             do {
                 let weather = try decoder.decode(WeatherDTO.self, from: data!)
                 self.city.text = weather.name
