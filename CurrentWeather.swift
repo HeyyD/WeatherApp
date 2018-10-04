@@ -11,6 +11,7 @@ import UIKit
 class CurrentWeather: UIViewController {
     
     let api_key = "a59dd893440fcb2c69b5fe347b9ef83c"
+    
     let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     
     @IBOutlet weak var city: UILabel!
@@ -24,7 +25,6 @@ class CurrentWeather: UIViewController {
         indicator.center = CGPoint(x: bounds.width/2, y: bounds.height/2)
         self.view.addSubview(indicator)
         
-        fetchUrl(url: "https://api.openweathermap.org/data/2.5/weather?q=Tampere&units=metric&APPID=" + api_key)
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -33,7 +33,9 @@ class CurrentWeather: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    
+    override func viewWillAppear(_ animated: Bool) {
+        fetchUrl(url: "https://api.openweathermap.org/data/2.5/weather?q=\(AppDelegate.selectedCity)&units=metric&APPID=" + api_key)
+    }
     
     func fetchUrl(url : String) {
         indicator.startAnimating()
