@@ -57,10 +57,6 @@ class Forecast: UITableViewController {
         return cell //4.
     }
     
-    func load(url: URL) {
-
-    }
-    
     func fetchUrl(url : String) {
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
