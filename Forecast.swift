@@ -40,12 +40,25 @@ class Forecast: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "weatherIdentifier")! as! ForecastCell
         
         let weather = data[indexPath.row].weather[0].description
-        let time = data [indexPath.row].dt_txt
+        let time = data[indexPath.row].dt_txt
+        let icon = data[indexPath.row].weather[0].icon
         
         cell.weather.text = weather
         cell.time.text = time
         
+        let url = URL(string: "https://openweathermap.org/img/w/\(icon).png")!
+        
+        DispatchQueue.main.async {
+            let data = NSData(contentsOf: url)!
+            let image = UIImage(data: data as Data)
+            cell.icon.image = image
+        }
+        
         return cell //4.
+    }
+    
+    func load(url: URL) {
+
     }
     
     func fetchUrl(url : String) {
