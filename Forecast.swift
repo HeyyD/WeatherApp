@@ -11,16 +11,41 @@ import UIKit
 class Forecast: UITableViewController {
     
     let api_key = "a59dd893440fcb2c69b5fe347b9ef83c"
+    var data : [WeatherForecastDTO] = []
+    
+    @IBOutlet weak var image: UIImageView!
+    @IBOutlet weak var weather: UILabel!
+    @IBOutlet weak var time: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchUrl(url: "https://api.openweathermap.org/data/2.5/forecast?q=\(AppDelegate.selectedCity)&units=metric&APPID=\(api_key)")
         // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        fetchUrl(url: "https://api.openweathermap.org/data/2.5/forecast?q=\(AppDelegate.selectedCity)&units=metric&APPID=\(api_key)")
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return data.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "weatherIdentifier")! as! ForecastCell
+        
+        let weather = data[indexPath.row].weather[0].description
+        let time = data [indexPath.row].dt_txt
+        
+        cell.weather.text = weather
+        cell.time.text = time
+        
+        return cell //4.
     }
     
     func fetchUrl(url : String) {
@@ -40,7 +65,8 @@ class Forecast: UITableViewController {
             let decoder = JSONDecoder()
             do {
                 let forecast = try decoder.decode(ForecastDTO.self, from: data!)
-                print(forecast)
+                self.data = forecast.list
+                self.tableView.reloadData()
             } catch {
                 print(error)
             }
