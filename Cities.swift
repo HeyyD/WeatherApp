@@ -30,6 +30,14 @@ class Cities: UITableViewController {
         return data.count
     }
     
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if indexPath.row > 0 {
+            return true
+        } else {
+            return false
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellReuseIdentifier")! //1.
         
@@ -70,10 +78,17 @@ class Cities: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete && indexPath.row > 0 {
+        if editingStyle == .delete {
             self.data.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        
+        let movedObject = self.data[sourceIndexPath.row]
+        data.remove(at: sourceIndexPath.row)
+        data.insert(movedObject, at: destinationIndexPath.row)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
