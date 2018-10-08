@@ -59,8 +59,21 @@ class Cities: UITableViewController {
         self.present(alertController, animated: true)
     }
     
-    @IBAction func toggleEdit(_ sender: Any) {
-        print("HERE")
+    @IBAction func toggleEdit(_ sender: UIBarButtonItem) {
+        self.tableView.setEditing(!self.tableView.isEditing, animated: true)
+        
+        if(self.tableView.isEditing) {
+            sender.title = "Done"
+        } else {
+            sender.title = "Edit"
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete && indexPath.row > 0 {
+            self.data.remove(at: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
