@@ -39,6 +39,8 @@ class CurrentWeather: UIViewController, CLLocationManagerDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        indicator.startAnimating()
+        
         if AppDelegate.useGps {
             locationManager.requestLocation()
         } else {
@@ -57,7 +59,6 @@ class CurrentWeather: UIViewController, CLLocationManagerDelegate {
     }
     
     func fetchUrl(url : String) {
-        indicator.startAnimating()
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
         
@@ -72,8 +73,6 @@ class CurrentWeather: UIViewController, CLLocationManagerDelegate {
     func doneFetching(data: Data?, response: URLResponse?, error: Error?) {
         // Execute stuff in UI thread
         DispatchQueue.main.async(execute: {() in
-            self.indicator.stopAnimating()
-            
             let decoder = JSONDecoder()
             do {
                 let weather = try decoder.decode(WeatherDTO.self, from: data!)
@@ -87,11 +86,12 @@ class CurrentWeather: UIViewController, CLLocationManagerDelegate {
                 let data = NSData(contentsOf: url)!
                 let image = UIImage(data: data as Data)
                 self.icon.image = image
-                self.indicator.stopAnimating()
                 
             } catch {
                 print("ERROR PARSING JSON")
             }
+            
+            self.indicator.stopAnimating()
         })
     }
     
