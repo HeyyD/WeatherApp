@@ -70,7 +70,7 @@ class Forecast: UITableViewController {
     
     func doneFetching(data: Data?, response: URLResponse?, error: Error?) {
         // Execute stuff in UI thread
-        DispatchQueue.main.async(execute: {() in            
+        DispatchQueue.main.async(execute: {() in
             let decoder = JSONDecoder()
             do {
                 let forecast = try decoder.decode(ForecastDTO.self, from: data!)

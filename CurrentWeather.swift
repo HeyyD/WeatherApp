@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import CoreLocation
 
-class CurrentWeather: UIViewController {
+class CurrentWeather: UIViewController, CLLocationManagerDelegate {
     
     let api_key = "a59dd893440fcb2c69b5fe347b9ef83c"
     
     let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+    let locationManager = CLLocationManager()
     
     @IBOutlet weak var icon: UIImageView!
     @IBOutlet weak var city: UILabel!
@@ -25,6 +27,9 @@ class CurrentWeather: UIViewController {
         indicator.center = CGPoint(x: bounds.width/2, y: bounds.height/2)
         self.view.addSubview(indicator)
         
+        locationManager.delegate = self
+        locationManager.requestAlwaysAuthorization()
+        
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -34,7 +39,21 @@ class CurrentWeather: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        fetchUrl(url: "https://api.openweathermap.org/data/2.5/weather?q=\(AppDelegate.selectedCity)&units=metric&APPID=" + api_key)
+        if AppDelegate.useGps {
+            locationManager.requestLocation()
+        } else {
+            fetchUrl(url: "https://api.openweathermap.org/data/2.5/weather?q=\(AppDelegate.selectedCity!)&units=metric&APPID=" + api_key)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first {
+            fetchUrl(url: "https://api.openweathermap.org/data/2.5/weather?lat=\(location.coordinate.latitude)&lon=\(location.coordinate.longitude)&units=metric&APPID=\(api_key)")
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Failed to find user's location: \(error.localizedDescription)")
     }
     
     func fetchUrl(url : String) {
