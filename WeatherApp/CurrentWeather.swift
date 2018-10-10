@@ -21,7 +21,7 @@ class CurrentWeather: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
         

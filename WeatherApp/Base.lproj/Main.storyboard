@@ -70,7 +70,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Current" id="pwX-vX-YHp"/>
+                    <tabBarItem key="tabBarItem" title="Current" image="icons8-cloud-30" id="pwX-vX-YHp"/>
                     <connections>
                         <outlet property="city" destination="ayS-cE-Mty" id="lbJ-qf-JzU"/>
                         <outlet property="icon" destination="JHF-7o-Ctq" id="hmg-Ri-uB0"/>
@@ -133,7 +133,7 @@
                                 <connections>
                                     <outlet property="icon" destination="UUF-HL-wQK" id="xI9-Kp-peZ"/>
                                     <outlet property="time" destination="k3w-BB-Fvc" id="sXq-fm-s1B"/>
-                                    <outlet property="weather" destination="4Kv-Le-v5P" id="oTV-dJ-Oc1"/>
+                                    <outlet property="weather" destination="4Kv-Le-v5P" id="dv2-6r-l2i"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -142,7 +142,7 @@
                             <outlet property="delegate" destination="Egn-iG-iD6" id="iqo-Ed-UFy"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Forecast" id="mZV-fb-7K6"/>
+                    <tabBarItem key="tabBarItem" title="Forecast" image="icons8-thermometer-30" id="mZV-fb-7K6"/>
                     <connections>
                         <outlet property="view" destination="hAH-8I-9Mt" id="8Ry-Hw-iFY"/>
                     </connections>
@@ -220,7 +220,7 @@
         <scene sceneID="Swb-GE-ZSU">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="pjG-Br-73P" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Cities" id="WVn-1b-zDv"/>
+                    <tabBarItem key="tabBarItem" title="Cities" image="icons8-city-30" id="WVn-1b-zDv"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="X6M-U6-x9w">
                         <rect key="frame" x="0.0" y="20" width="320" height="44"/>
@@ -236,4 +236,9 @@
             <point key="canvasLocation" x="2646" y="117"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="icons8-city-30" width="30" height="30"/>
+        <image name="icons8-cloud-30" width="30" height="30"/>
+        <image name="icons8-thermometer-30" width="30" height="30"/>
+    </resources>
 </document>
