@@ -14,7 +14,6 @@ class Cities: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Location"
         
         self.data.append("Use GPS")
         tableView.dataSource = self
