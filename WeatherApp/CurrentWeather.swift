@@ -12,20 +12,15 @@ import CoreLocation
 class CurrentWeather: UIViewController, CLLocationManagerDelegate {
     
     let api_key = "a59dd893440fcb2c69b5fe347b9ef83c"
-    
-    let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     let locationManager = CLLocationManager()
     
     @IBOutlet weak var icon: UIImageView!
     @IBOutlet weak var city: UILabel!
     @IBOutlet weak var temperature: UILabel!
+    @IBOutlet weak var indicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let bounds = UIScreen.main.bounds
-        indicator.center = CGPoint(x: bounds.width/2, y: bounds.height/2)
-        self.view.addSubview(indicator)
         
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
