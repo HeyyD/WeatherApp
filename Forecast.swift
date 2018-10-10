@@ -77,7 +77,7 @@ class Forecast: UITableViewController {
                 self.data = forecast.list
                 self.tableView.reloadData()
             } catch {
-                print(error)
+                print("ERROR PARSING JSON")
             }
         })
     }

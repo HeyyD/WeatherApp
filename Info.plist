@@ -41,5 +41,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>SKYNET2</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>SKYNET</string>
 </dict>
 </plist>

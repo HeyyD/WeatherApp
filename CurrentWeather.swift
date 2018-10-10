@@ -51,11 +51,8 @@ class CurrentWeather: UIViewController {
     }
     
     func doneFetching(data: Data?, response: URLResponse?, error: Error?) {
-        let resstr = String(data: data!, encoding: String.Encoding.utf8)
-        
         // Execute stuff in UI thread
         DispatchQueue.main.async(execute: {() in
-            NSLog(resstr!)
             self.indicator.stopAnimating()
             
             let decoder = JSONDecoder()
@@ -68,12 +65,10 @@ class CurrentWeather: UIViewController {
                 
                 let url = URL(string: "https://openweathermap.org/img/w/\(icon).png")!
                 
-                DispatchQueue.main.async {
-                    let data = NSData(contentsOf: url)!
-                    let image = UIImage(data: data as Data)
-                    self.icon.image = image
-                    self.indicator.stopAnimating()
-                }
+                let data = NSData(contentsOf: url)!
+                let image = UIImage(data: data as Data)
+                self.icon.image = image
+                self.indicator.stopAnimating()
                 
             } catch {
                 print("ERROR PARSING JSON")
