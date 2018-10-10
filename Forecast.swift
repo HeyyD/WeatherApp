@@ -19,7 +19,6 @@ class Forecast: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Forecast"
         // Do any additional setup after loading the view, typically from a nib.
     }
     

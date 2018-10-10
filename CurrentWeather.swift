@@ -20,7 +20,6 @@ class CurrentWeather: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Current weather"
         
         let bounds = UIScreen.main.bounds
         indicator.center = CGPoint(x: bounds.width/2, y: bounds.height/2)
