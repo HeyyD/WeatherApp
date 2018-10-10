@@ -91,8 +91,12 @@ class Cities: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(data[indexPath[1]])
-        AppDelegate.selectedCity = data[indexPath[1]]
+        if indexPath.row > 0 {
+            AppDelegate.selectedCity = data[indexPath.row]
+            AppDelegate.useGps = false
+        } else {
+            AppDelegate.useGps = true
+        }
     }
 }
 

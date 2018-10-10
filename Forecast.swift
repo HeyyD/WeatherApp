@@ -67,11 +67,11 @@ class Forecast: UITableViewController, CLLocationManagerDelegate {
         
         let url = URL(string: "https://openweathermap.org/img/w/\(icon).png")!
         
-        DispatchQueue.main.async {
+        DispatchQueue.main.async (execute: { () in
             let data = NSData(contentsOf: url)!
             let image = UIImage(data: data as Data)
             cell.icon.image = image
-        }
+        })
         
         return cell //4.
     }
