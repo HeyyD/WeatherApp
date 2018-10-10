@@ -14,6 +14,7 @@ class CurrentWeather: UIViewController {
     
     let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     
+    @IBOutlet weak var icon: UIImageView!
     @IBOutlet weak var city: UILabel!
     @IBOutlet weak var temperature: UILabel!
     
@@ -63,6 +64,18 @@ class CurrentWeather: UIViewController {
                 let weather = try decoder.decode(WeatherDTO.self, from: data!)
                 self.city.text = weather.name
                 self.temperature.text = String(weather.main.temp) + " C"
+                
+                let icon = weather.weather[0].icon
+                
+                let url = URL(string: "https://openweathermap.org/img/w/\(icon).png")!
+                
+                DispatchQueue.main.async {
+                    let data = NSData(contentsOf: url)!
+                    let image = UIImage(data: data as Data)
+                    self.icon.image = image
+                    self.indicator.stopAnimating()
+                }
+                
             } catch {
                 print("ERROR PARSING JSON")
             }
