@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8B410E9721664A5300E5DEFC /* WeatherDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B410E9621664A5300E5DEFC /* WeatherDTO.swift */; };
+		8B491988216E2CD700B60FAA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B491987216E2CD700B60FAA /* Images.xcassets */; };
 		8B62028A216B8CAA0026A17F /* ForecastDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B620289216B8CAA0026A17F /* ForecastDTO.swift */; };
 		8B62028C216B8D250026A17F /* MainDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B62028B216B8D250026A17F /* MainDTO.swift */; };
 		8B62028E216B960D0026A17F /* ForecastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B62028D216B960D0026A17F /* ForecastCell.swift */; };
@@ -44,6 +45,7 @@
 
 /* Begin PBXFileReference section */
 		8B410E9621664A5300E5DEFC /* WeatherDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDTO.swift; sourceTree = "<group>"; };
+		8B491987216E2CD700B60FAA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		8B620289216B8CAA0026A17F /* ForecastDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastDTO.swift; sourceTree = "<group>"; };
 		8B62028B216B8D250026A17F /* MainDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDTO.swift; sourceTree = "<group>"; };
 		8B62028D216B960D0026A17F /* ForecastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastCell.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				8B9CD81A2164E72400960D3D /* Forecast.swift */,
 				8B9CD81C2164E74400960D3D /* Cities.swift */,
 				8B62028D216B960D0026A17F /* ForecastCell.swift */,
+				8B491987216E2CD700B60FAA /* Images.xcassets */,
 			);
 			path = WeatherApp;
 			sourceTree = "<group>";
@@ -265,6 +268,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B9CD8172164E23B00960D3D /* .gitignore in Resources */,
+				8B491988216E2CD700B60FAA /* Images.xcassets in Resources */,
 				8B9CD7F32164E0F600960D3D /* LaunchScreen.storyboard in Resources */,
 				8B9CD7F02164E0F600960D3D /* Assets.xcassets in Resources */,
 				8B9CD7EE2164E0F300960D3D /* Main.storyboard in Resources */,
@@ -474,6 +478,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WZ9XNS83QD;
 				INFOPLIST_FILE = WeatherApp/Info.plist;
@@ -493,6 +498,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WZ9XNS83QD;
 				INFOPLIST_FILE = WeatherApp/Info.plist;
