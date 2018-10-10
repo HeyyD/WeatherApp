@@ -13,6 +13,7 @@ class Forecast: UITableViewController, CLLocationManagerDelegate {
     
     let api_key = "a59dd893440fcb2c69b5fe347b9ef83c"
     let locationManager = CLLocationManager()
+    let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     
     var data : [WeatherForecastDTO] = []
     
@@ -24,10 +25,18 @@ class Forecast: UITableViewController, CLLocationManagerDelegate {
         super.viewDidLoad()
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
+        
+        let bounds = UIScreen.main.bounds
+        indicator.center = CGPoint(x: bounds.width/2, y: bounds.height/2)
+        self.view.addSubview(indicator)
+        
         // Do any additional setup after loading the view, typically from a nib.
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
+        indicator.startAnimating()
+        
         if AppDelegate.useGps {
             locationManager.requestLocation()
         } else {
@@ -98,6 +107,8 @@ class Forecast: UITableViewController, CLLocationManagerDelegate {
             } catch {
                 print("ERROR PARSING JSON")
             }
+            
+            self.indicator.stopAnimating()
         })
     }
 }
