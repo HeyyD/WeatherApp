@@ -175,7 +175,7 @@
                                     <action selector="toggleEdit:" destination="7Uq-AU-Yjs" id="U4B-4Q-4iD"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="+" id="xsd-pE-cxc">
+                            <barButtonItem systemItem="add" id="xsd-pE-cxc">
                                 <connections>
                                     <action selector="addLocation:" destination="7Uq-AU-Yjs" id="cso-gE-k9X"/>
                                 </connections>
