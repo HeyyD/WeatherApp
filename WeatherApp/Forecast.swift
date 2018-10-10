@@ -16,13 +16,22 @@ class Forecast: UITableViewController, CLLocationManagerDelegate {
     
     var data : [WeatherForecastDTO] = []
     
-    @IBOutlet var indicator: UIActivityIndicatorView!
+    let indicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
         
+        let bounds = UIScreen.main.bounds;
+        
+        indicator.center = CGPoint(x: bounds.width/2, y: bounds.height/2)
+        indicator.frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height)
+        indicator.backgroundColor = UIColor.black
+        indicator.alpha = 0.5
+        indicator.hidesWhenStopped = true;
+        
+        self.view.addSubview(indicator)
         // Do any additional setup after loading the view, typically from a nib.
     }
     
