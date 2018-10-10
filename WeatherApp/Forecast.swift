@@ -68,10 +68,11 @@ class Forecast: UITableViewController, CLLocationManagerDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "weatherIdentifier")! as! ForecastCell
         
         let weather = data[indexPath.row].weather[0].description
+        let temp = data[indexPath.row].main.temp
         let time = data[indexPath.row].dt_txt
         let icon = data[indexPath.row].weather[0].icon
         
-        cell.weather.text = weather
+        cell.weather.text = "\(weather) \(temp)C"
         cell.time.text = time
         
         let url = URL(string: "https://openweathermap.org/img/w/\(icon).png")!
