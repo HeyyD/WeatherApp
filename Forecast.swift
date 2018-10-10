@@ -7,10 +7,14 @@
 //
 
 import UIKit
+import CoreLocation
 
-class Forecast: UITableViewController {
+class Forecast: UITableViewController, CLLocationManagerDelegate {
     
     let api_key = "a59dd893440fcb2c69b5fe347b9ef83c"
+    let locationManager = CLLocationManager()
+    let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+    
     var data : [WeatherForecastDTO] = []
     
     @IBOutlet weak var image: UIImageView!
@@ -19,11 +23,35 @@ class Forecast: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        locationManager.delegate = self
+        locationManager.requestAlwaysAuthorization()
+        
+        let bounds = UIScreen.main.bounds
+        indicator.center = CGPoint(x: bounds.width/2, y: bounds.height/2)
+        self.view.addSubview(indicator)
+        
         // Do any additional setup after loading the view, typically from a nib.
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        fetchUrl(url: "https://api.openweathermap.org/data/2.5/forecast?q=\(AppDelegate.selectedCity)&units=metric&APPID=\(api_key)")
+        
+        indicator.startAnimating()
+        
+        if AppDelegate.useGps {
+            locationManager.requestLocation()
+        } else {
+            fetchUrl(url: "https://api.openweathermap.org/data/2.5/forecast?q=\(AppDelegate.selectedCity!)&units=metric&APPID=\(api_key)")
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first {
+            fetchUrl(url: "https://api.openweathermap.org/data/2.5/forecast?lat=\(location.coordinate.latitude)&lon=\(location.coordinate.longitude)&units=metric&APPID=\(api_key)")
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Failed to find user's location: \(error.localizedDescription)")
     }
     
     override func didReceiveMemoryWarning() {
@@ -48,11 +76,11 @@ class Forecast: UITableViewController {
         
         let url = URL(string: "https://openweathermap.org/img/w/\(icon).png")!
         
-        DispatchQueue.main.async {
+        DispatchQueue.main.async (execute: { () in
             let data = NSData(contentsOf: url)!
             let image = UIImage(data: data as Data)
             cell.icon.image = image
-        }
+        })
         
         return cell //4.
     }
@@ -70,15 +98,17 @@ class Forecast: UITableViewController {
     
     func doneFetching(data: Data?, response: URLResponse?, error: Error?) {
         // Execute stuff in UI thread
-        DispatchQueue.main.async(execute: {() in            
+        DispatchQueue.main.async(execute: {() in
             let decoder = JSONDecoder()
             do {
                 let forecast = try decoder.decode(ForecastDTO.self, from: data!)
                 self.data = forecast.list
                 self.tableView.reloadData()
             } catch {
-                print(error)
+                print("ERROR PARSING JSON")
             }
+            
+            self.indicator.stopAnimating()
         })
     }
 }
