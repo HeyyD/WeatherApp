@@ -1,6 +1,6 @@
-struct WeatherDTO: Codable {
+class WeatherDTO: Codable {
     var id: Int
     var name: String
     var main: Main
-    var weather: [WeatherDescriptionDTO]
+    var weather: [WeatherDescriptionDTO] = []
 }

@@ -14,7 +14,7 @@
         <!--Current weather-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController title="Current weather" id="BYZ-38-t0r" customClass="CurrentWeather" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="currentWeather" title="Current weather" id="BYZ-38-t0r" customClass="CurrentWeather" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -86,7 +86,7 @@
         <!--Forecast-->
         <scene sceneID="PX8-h8-VeW">
             <objects>
-                <tableViewController title="Forecast" id="Egn-iG-iD6" customClass="Forecast" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController restorationIdentifier="forecast" title="Forecast" id="Egn-iG-iD6" customClass="Forecast" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="hAH-8I-9Mt">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -160,7 +160,7 @@
         <!--Cities-->
         <scene sceneID="rvu-2l-3xQ">
             <objects>
-                <tableViewController title="Cities" id="7Uq-AU-Yjs" customClass="Cities" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController restorationIdentifier="cities" title="Cities" id="7Uq-AU-Yjs" customClass="Cities" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="DfM-mA-exF">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -205,7 +205,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="wOE-9e-q91">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="8WL-zM-EJf" sceneMemberID="viewController">
+                <tabBarController restorationIdentifier="tabcontroller" automaticallyAdjustsScrollViewInsets="NO" id="8WL-zM-EJf" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="YZs-X1-TS5">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
@@ -225,7 +225,7 @@
         <!--Cities-->
         <scene sceneID="Swb-GE-ZSU">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="pjG-Br-73P" sceneMemberID="viewController">
+                <navigationController restorationIdentifier="navigation" automaticallyAdjustsScrollViewInsets="NO" id="pjG-Br-73P" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Cities" image="icons8-city-30" id="WVn-1b-zDv"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="X6M-U6-x9w">

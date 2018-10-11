@@ -13,8 +13,10 @@ class Forecast: UITableViewController, CLLocationManagerDelegate {
     
     let api_key = "a59dd893440fcb2c69b5fe347b9ef83c"
     let locationManager = CLLocationManager()
+    let cache = NSCache<NSString, ForecastDTO>()
     
     var data : [WeatherForecastDTO] = []
+    var imageData: Dictionary<String, NSData> = Dictionary<String, NSData>()
     
     let indicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
     
@@ -45,7 +47,11 @@ class Forecast: UITableViewController, CLLocationManagerDelegate {
         if AppDelegate.useGps {
             locationManager.requestLocation()
         } else {
-            fetchUrl(url: "https://api.openweathermap.org/data/2.5/forecast?q=\(AppDelegate.selectedCity!)&units=metric&APPID=\(api_key)")
+            if self.cache.object(forKey: NSString(string: "\(AppDelegate.selectedCity!) forecast")) != nil {
+                self.setForecast(forecast: self.cache.object(forKey: NSString(string: "\(AppDelegate.selectedCity!) forecast"))!)
+            } else {
+                fetchUrl(url: "https://api.openweathermap.org/data/2.5/forecast?q=\(AppDelegate.selectedCity!)&units=metric&APPID=\(api_key)")
+            }
         }
     }
     
@@ -80,10 +86,18 @@ class Forecast: UITableViewController, CLLocationManagerDelegate {
         cell.weather.text = "\(weather) \(temp)C"
         cell.time.text = time
         
-        let url = URL(string: "https://openweathermap.org/img/w/\(icon).png")!
-        
         DispatchQueue.main.async (execute: { () in
-            let data = NSData(contentsOf: url)!
+            
+            let data: NSData
+            
+            if self.imageData.keys.contains(icon) {
+               data = self.imageData[icon]!
+            } else {
+                let url = URL(string: "https://openweathermap.org/img/w/\(icon).png")!
+                data = NSData(contentsOf: url)!
+                self.imageData[icon] = data
+            }
+            
             let image = UIImage(data: data as Data)
             cell.icon.image = image
         })
@@ -102,14 +116,20 @@ class Forecast: UITableViewController, CLLocationManagerDelegate {
         task.resume();
     }
     
+    func setForecast(forecast: ForecastDTO) {
+        self.data = forecast.list
+        self.tableView.reloadData()
+    }
+    
     func doneFetching(data: Data?, response: URLResponse?, error: Error?) {
         // Execute stuff in UI thread
         DispatchQueue.main.async(execute: {() in
             let decoder = JSONDecoder()
             do {
                 let forecast = try decoder.decode(ForecastDTO.self, from: data!)
-                self.data = forecast.list
-                self.tableView.reloadData()
+                self.cache.setObject(forecast, forKey: NSString(string: "\(forecast.city.name) forecast"))
+                
+                self.setForecast(forecast: forecast)
             } catch {
                 print("ERROR PARSING JSON")
             }
