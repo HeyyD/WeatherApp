@@ -15,6 +15,7 @@ class Forecast: UITableViewController, CLLocationManagerDelegate {
     let locationManager = CLLocationManager()
     
     var data : [WeatherForecastDTO] = []
+    var imageData: Dictionary<String, NSData> = Dictionary<String, NSData>()
     
     let indicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
     
@@ -80,10 +81,18 @@ class Forecast: UITableViewController, CLLocationManagerDelegate {
         cell.weather.text = "\(weather) \(temp)C"
         cell.time.text = time
         
-        let url = URL(string: "https://openweathermap.org/img/w/\(icon).png")!
-        
         DispatchQueue.main.async (execute: { () in
-            let data = NSData(contentsOf: url)!
+            
+            let data: NSData
+            
+            if self.imageData.keys.contains(icon) {
+               data = self.imageData[icon]!
+            } else {
+                let url = URL(string: "https://openweathermap.org/img/w/\(icon).png")!
+                data = NSData(contentsOf: url)!
+                self.imageData[icon] = data
+            }
+            
             let image = UIImage(data: data as Data)
             cell.icon.image = image
         })
