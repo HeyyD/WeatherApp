@@ -46,7 +46,7 @@ class Forecast: UITableViewController, CLLocationManagerDelegate {
         if AppDelegate.useGps {
             locationManager.requestLocation()
         } else {
-            fetchUrl(url: "https://api.openweathermap.org/data/2.5/forecast?q=\(AppDelegate.selectedCity!)&units=metric&APPID=\(api_key)")
+            fetchUrl(url: "https://api.openweathermap.org/data/2.5/forecast?q=\(AppDelegate.selectedCity)&units=metric&APPID=\(api_key)")
         }
     }
     

@@ -108,6 +108,7 @@ class Cities: UITableViewController {
             AppDelegate.selectedCity = data[indexPath.row]
             AppDelegate.useGps = false
         } else {
+            AppDelegate.selectedCity = nil
             AppDelegate.useGps = true
         }
     }

@@ -13,6 +13,7 @@ class CurrentWeather: UIViewController, CLLocationManagerDelegate {
     
     let api_key = "a59dd893440fcb2c69b5fe347b9ef83c"
     let locationManager = CLLocationManager()
+    let cache = NSCache<NSString, WeatherDTO>()
     
     @IBOutlet weak var icon: UIImageView!
     @IBOutlet weak var city: UILabel!
@@ -34,12 +35,17 @@ class CurrentWeather: UIViewController, CLLocationManagerDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        indicator.startAnimating()
-        
-        if AppDelegate.useGps {
-            locationManager.requestLocation()
+
+        if let city = AppDelegate.selectedCity {
+            if self.cache.object(forKey: NSString(string: "\(city) current")) != nil {
+                setWeather(weather: self.cache.object(forKey: NSString(string: "\(city) current"))!)
+            } else {
+                indicator.startAnimating()
+                fetchUrl(url: "https://api.openweathermap.org/data/2.5/weather?q=\(city)&units=metric&APPID=" + api_key)
+            }
         } else {
-            fetchUrl(url: "https://api.openweathermap.org/data/2.5/weather?q=\(AppDelegate.selectedCity!)&units=metric&APPID=" + api_key)
+            indicator.startAnimating()
+            locationManager.requestLocation()
         }
     }
     
@@ -65,23 +71,27 @@ class CurrentWeather: UIViewController, CLLocationManagerDelegate {
         task.resume();
     }
     
+    func setWeather(weather: WeatherDTO) {
+        self.city.text = weather.name
+        self.temperature.text = String(weather.main.temp) + " C"
+        
+        let icon = weather.weather[0].icon
+        
+        let url = URL(string: "https://openweathermap.org/img/w/\(icon).png")!
+        
+        let data = NSData(contentsOf: url)!
+        let image = UIImage(data: data as Data)
+        self.icon.image = image
+    }
+    
     func doneFetching(data: Data?, response: URLResponse?, error: Error?) {
         // Execute stuff in UI thread
         DispatchQueue.main.async(execute: {() in
             let decoder = JSONDecoder()
             do {
                 let weather = try decoder.decode(WeatherDTO.self, from: data!)
-                self.city.text = weather.name
-                self.temperature.text = String(weather.main.temp) + " C"
-                
-                let icon = weather.weather[0].icon
-                
-                let url = URL(string: "https://openweathermap.org/img/w/\(icon).png")!
-                
-                let data = NSData(contentsOf: url)!
-                let image = UIImage(data: data as Data)
-                self.icon.image = image
-                
+                self.cache.setObject(weather, forKey: NSString(string: "\(weather.name) current"))
+                self.setWeather(weather: weather)
             } catch {
                 print("ERROR PARSING JSON")
             }
