@@ -11,10 +11,18 @@ import UIKit
 class Cities: UITableViewController {
     
     private var data: [String] = []
+    private let db = UserDefaults.standard
+    private let dbKey = "Cities"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.data.append("Use GPS")
+        
+        if self.db.array(forKey: dbKey) != nil {
+                self.data = self.db.array(forKey: dbKey) as! [String]
+        } else {
+            self.data.append("Use GPS")
+        }
+
         tableView.dataSource = self
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -55,6 +63,8 @@ class Cities: UITableViewController {
         let add = UIAlertAction(title: "Add", style: .default) { (action) in
             self.data.append((alertController.textFields?.first?.text)!)
             self.tableView.reloadData()
+            
+            self.db.set(self.data, forKey: self.dbKey)
         }
         let cancel = UIAlertAction(title: "Cancel", style: .default) { (action) in
             print("Cancel")
@@ -79,6 +89,8 @@ class Cities: UITableViewController {
         if editingStyle == .delete {
             self.data.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            
+            self.db.set(self.data, forKey: dbKey)
         }
     }
     
@@ -87,6 +99,8 @@ class Cities: UITableViewController {
         let movedObject = self.data[sourceIndexPath.row]
         data.remove(at: sourceIndexPath.row)
         data.insert(movedObject, at: destinationIndexPath.row)
+        
+        self.db.set(self.data, forKey: dbKey)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
