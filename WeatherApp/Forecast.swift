@@ -13,29 +13,34 @@ class Forecast: UITableViewController, CLLocationManagerDelegate {
     
     let api_key = "a59dd893440fcb2c69b5fe347b9ef83c"
     let locationManager = CLLocationManager()
-    let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     
     var data : [WeatherForecastDTO] = []
     
-    @IBOutlet weak var image: UIImageView!
-    @IBOutlet weak var weather: UILabel!
-    @IBOutlet weak var time: UILabel!
+    let indicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
         
-        let bounds = UIScreen.main.bounds
+        let bounds = UIScreen.main.bounds;
+        
         indicator.center = CGPoint(x: bounds.width/2, y: bounds.height/2)
-        self.view.addSubview(indicator)
+        indicator.frame = bounds
+        indicator.backgroundColor = UIColor.black
+        indicator.alpha = 0.5
+        indicator.hidesWhenStopped = true;
+        
+        self.tableView.backgroundView = indicator
         
         // Do any additional setup after loading the view, typically from a nib.
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         
         indicator.startAnimating()
+        self.data = []
+        tableView.reloadData()
         
         if AppDelegate.useGps {
             locationManager.requestLocation()
@@ -68,10 +73,11 @@ class Forecast: UITableViewController, CLLocationManagerDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "weatherIdentifier")! as! ForecastCell
         
         let weather = data[indexPath.row].weather[0].description
+        let temp = data[indexPath.row].main.temp
         let time = data[indexPath.row].dt_txt
         let icon = data[indexPath.row].weather[0].icon
         
-        cell.weather.text = weather
+        cell.weather.text = "\(weather) \(temp)C"
         cell.time.text = time
         
         let url = URL(string: "https://openweathermap.org/img/w/\(icon).png")!

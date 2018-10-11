@@ -12,21 +12,16 @@ import CoreLocation
 class CurrentWeather: UIViewController, CLLocationManagerDelegate {
     
     let api_key = "a59dd893440fcb2c69b5fe347b9ef83c"
-    
-    let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     let locationManager = CLLocationManager()
     
     @IBOutlet weak var icon: UIImageView!
     @IBOutlet weak var city: UILabel!
     @IBOutlet weak var temperature: UILabel!
+    @IBOutlet weak var indicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let bounds = UIScreen.main.bounds
-        indicator.center = CGPoint(x: bounds.width/2, y: bounds.height/2)
-        self.view.addSubview(indicator)
-        
+
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
         
@@ -39,6 +34,8 @@ class CurrentWeather: UIViewController, CLLocationManagerDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        indicator.startAnimating()
+        
         if AppDelegate.useGps {
             locationManager.requestLocation()
         } else {
@@ -57,7 +54,6 @@ class CurrentWeather: UIViewController, CLLocationManagerDelegate {
     }
     
     func fetchUrl(url : String) {
-        indicator.startAnimating()
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
         
@@ -72,8 +68,6 @@ class CurrentWeather: UIViewController, CLLocationManagerDelegate {
     func doneFetching(data: Data?, response: URLResponse?, error: Error?) {
         // Execute stuff in UI thread
         DispatchQueue.main.async(execute: {() in
-            self.indicator.stopAnimating()
-            
             let decoder = JSONDecoder()
             do {
                 let weather = try decoder.decode(WeatherDTO.self, from: data!)
@@ -87,11 +81,12 @@ class CurrentWeather: UIViewController, CLLocationManagerDelegate {
                 let data = NSData(contentsOf: url)!
                 let image = UIImage(data: data as Data)
                 self.icon.image = image
-                self.indicator.stopAnimating()
                 
             } catch {
                 print("ERROR PARSING JSON")
             }
+            
+            self.indicator.stopAnimating()
         })
     }
     
