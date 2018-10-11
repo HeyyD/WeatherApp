@@ -51,7 +51,26 @@ class CurrentWeather: UIViewController, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
-            fetchUrl(url: "https://api.openweathermap.org/data/2.5/weather?lat=\(location.coordinate.latitude)&lon=\(location.coordinate.longitude)&units=metric&APPID=\(api_key)")
+            self.fetchUrl(url: "https://api.openweathermap.org/data/2.5/weather?lat=\(location.coordinate.latitude)&lon=\(location.coordinate.longitude)&units=metric&APPID=\(self.api_key)")
+            
+            // TODO: MAKE THIS THROW ERROR OR SOMETHING SMART
+            /*
+            CLGeocoder().reverseGeocodeLocation(location, completionHandler: { (placemarks, error) -> Void in
+                if(placemarks?.count)! > 0 {
+                    let placemark = placemarks?[0] as CLPlacemark?
+                    if let city = placemark?.subAdministrativeArea {
+                        if self.cache.object(forKey: NSString(string: "\(city) current")) != nil {
+                            self.setWeather(weather: self.cache.object(forKey: NSString(string: "\(city) current"))!)
+                            self.indicator.stopAnimating()
+                        }
+                    } else {
+                        self.fetchUrl(url: "https://api.openweathermap.org/data/2.5/weather?lat=\(location.coordinate.latitude)&lon=\(location.coordinate.longitude)&units=metric&APPID=\(self.api_key)")
+                    }
+                } else {
+                    self.fetchUrl(url: "https://api.openweathermap.org/data/2.5/weather?lat=\(location.coordinate.latitude)&lon=\(location.coordinate.longitude)&units=metric&APPID=\(self.api_key)")
+                }
+            })
+            */
         }
     }
     
